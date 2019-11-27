@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Agenda</string>
+    <string name="name">Name</string>
+    <string name="phone">phone</string>
+    <string name="email">email</string>
+    <string name="salvar">Salvar</string>
+</resources>

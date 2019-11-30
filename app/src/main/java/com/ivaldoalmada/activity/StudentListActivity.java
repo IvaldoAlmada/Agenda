@@ -54,13 +54,13 @@ public class StudentListActivity extends AppCompatActivity {
 
     private void configureStudentList() {
         final List<Student> studentList = studentDao.findAll();
-        ListView listaDeAlunos = findViewById(R.id.activity_main_student_list);
-        listaDeAlunos.setAdapter(new ArrayAdapter<>(
+        ListView studentListView = findViewById(R.id.activity_main_student_list);
+        studentListView.setAdapter(new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
                 studentList));
 
-        listaDeAlunos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        studentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

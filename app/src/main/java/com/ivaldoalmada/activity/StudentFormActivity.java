@@ -19,6 +19,8 @@ public class StudentFormActivity extends AppCompatActivity {
     private EditText studentPhone;
     private EditText studentEmail;
 
+    private Student student;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,10 +30,15 @@ public class StudentFormActivity extends AppCompatActivity {
         initializeStudentAttributes();
         configureSaveButtom();
         Intent intent = getIntent();
-        Student student = (Student) intent.getSerializableExtra("selectedStudent");
-        studentName.setText(student.getName());
-        studentEmail.setText(student.getEmail());
-        studentPhone.setText(student.getPhone());
+
+        if (intent.hasExtra("selectedStudent")) {
+            student = (Student) intent.getSerializableExtra("selectedStudent");
+            studentName.setText(student.getName());
+            studentEmail.setText(student.getEmail());
+            studentPhone.setText(student.getPhone());
+        } else {
+            student = new Student();
+        }
     }
 
     private void configureSaveButtom() {
@@ -39,20 +46,25 @@ public class StudentFormActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Student student = createStudent();
-                saveStudent(student);
+                fillStudent();
+                if(student.validId()) {
+                    studentDao.edit(student);
+                } else {
+                    studentDao.save(student);
+                }
+
+                finish();
             }
         });
     }
 
-    private void saveStudent(Student student) {
-        studentDao.save(student);
-        finish();
-    }
-
-    private Student createStudent() {
-        return new Student(studentName.getText().toString(), studentPhone.getText().toString(),
-                studentEmail.getText().toString());
+    private void fillStudent() {
+        String name = studentName.getText().toString();
+        String phone = studentPhone.getText().toString();
+        String email = studentEmail.getText().toString();
+        student.setName(name);
+        student.setPhone(phone);
+        student.setEmail(email);
     }
 
     private void initializeStudentAttributes() {

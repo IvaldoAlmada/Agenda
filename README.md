@@ -10,4 +10,5 @@
 # Android Alura parte 2
 
 - [x] 27/11 - 1.10  O que aprendemos?
-- [ ] 28/11 - 2.9   O que aprendemos?
+- [x] 28/11 - 2.9   O que aprendemos?
+- [ ] 02/12 - 3.8   O que aprendemos?

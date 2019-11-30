@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import com.ivaldoalmada.dao.StudentDao;
 import com.ivaldoalmada.domain.Student;
@@ -20,6 +21,8 @@ public class StudentListActivity extends AppCompatActivity {
     private final StudentDao studentDao = new StudentDao();
     private final String TITLE_APPBAR = "Lista de alunos";
     private Intent openFormIntent;
+    private ArrayAdapter<Student> studentListAdapter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,6 +31,7 @@ public class StudentListActivity extends AppCompatActivity {
         setTitle(TITLE_APPBAR);
         studentDao.save(new Student("Ivaldo", "987445311", "ivaldoalmada@gmail.com"));
         studentDao.save(new Student("Ju", "989218286", "ju@gmail.com"));
+        configureStudentList();
         configureFabNewStudent();
     }
 
@@ -49,26 +53,36 @@ public class StudentListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        configureStudentList();
+        studentListAdapter.clear();
+        studentListAdapter.addAll(studentDao.findAll());
+
     }
 
     private void configureStudentList() {
-        final List<Student> studentList = studentDao.findAll();
         ListView studentListView = findViewById(R.id.activity_main_student_list);
-        studentListView.setAdapter(new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                studentList));
+        studentListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        studentListView.setAdapter(studentListAdapter);
 
         studentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Student selectedStudent = studentList.get(position);
+                Student selectedStudent = (Student) parent.getItemAtPosition(position);
                 Log.i("clicked", selectedStudent.toString());
                 openFormIntent.putExtra("selectedStudent", selectedStudent);
                 startActivity(openFormIntent);
 
+            }
+        });
+
+        studentListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Student studentToDelete = (Student) parent.getItemAtPosition(position);
+                studentDao.remove(studentToDelete);
+                studentListAdapter.remove(studentToDelete);
+                return true;
             }
         });
     }

@@ -17,19 +17,29 @@ public class StudentDao {
     }
 
     public void edit(Student student) {
-        Student studentFound = null;
-        for (Student s: studentList) {
-            if(s.getId() == student.getId()) {
-                studentFound = s;
-            }
-        }
+        Student studentFound = findById(student.getId());
         if(studentFound != null) {
             int studentfoundPosition = studentList.indexOf(studentFound);
             studentList.set(studentfoundPosition, student);
         }
     }
 
+    public Student findById(int id) {
+        Student studentFound = null;
+        for (Student s: studentList) {
+            if(s.getId() == id) {
+                studentFound = s;
+            }
+        }
+        return studentFound;
+    }
+
     public List<Student> findAll() {
         return studentList;
+    }
+
+    public void remove(Student studentToDelete) {
+        Student studentFound = findById(studentToDelete.getId());
+        if (studentFound != null) studentList.remove(studentFound);
     }
 }

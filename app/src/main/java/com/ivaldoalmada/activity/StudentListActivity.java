@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -75,15 +77,21 @@ public class StudentListActivity extends AppCompatActivity {
             }
         });
 
-        studentListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        registerForContextMenu(studentListView);
+    }
 
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Student studentToDelete = (Student) parent.getItemAtPosition(position);
-                studentDao.remove(studentToDelete);
-                studentListAdapter.remove(studentToDelete);
-                return true;
-            }
-        });
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add("Remove");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Student studentFound = studentListAdapter.getItem(menuInfo.position);
+        studentDao.remove(studentFound);
+        studentListAdapter.remove(studentFound);
+        return super.onContextItemSelected(item);
     }
 }

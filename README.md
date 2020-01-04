@@ -15,3 +15,7 @@
 - [x] 02/12 - 4.04   Aplicando listener no menu de contexto
 - [x] 02/01 - 4.10   O que aprendemos?
 - [x] 04/01 - 5.08   Projeto final
+
+# Android Alura parte 3
+
+- [ ] 27/11 - 1.13   O que aprendemos?

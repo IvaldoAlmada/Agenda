@@ -3,6 +3,8 @@ package com.ivaldoalmada.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +30,6 @@ public class StudentFormActivity extends AppCompatActivity {
         setTitle(TITLE_APPBAR);
 
         initializeStudentAttributes();
-        configureSaveButtom();
         Intent intent = getIntent();
 
         if (intent.hasExtra("selectedStudent")) {
@@ -41,21 +42,32 @@ public class StudentFormActivity extends AppCompatActivity {
         }
     }
 
-    private void configureSaveButtom() {
-        Button saveButton = findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fillStudent();
-                if(student.validId()) {
-                    studentDao.edit(student);
-                } else {
-                    studentDao.save(student);
-                }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_form_alunos_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-                finish();
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.activity_form_alunos_menu_salvar) {
+            saveStudent();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void saveStudent() {
+        fillStudent();
+        if (student.validId()) {
+            studentDao.edit(student);
+        } else {
+            studentDao.save(student);
+        }
+
+        finish();
+
     }
 
     private void fillStudent() {

@@ -14,4 +14,4 @@
 - [x] 30/11 - 3.08   O que aprendemos?
 - [x] 02/12 - 4.04   Aplicando listener no menu de contexto
 - [x] 02/01 - 4.10   O que aprendemos?
-- [x] 06/01 - 4.08   Projeto final
+- [x] 04/01 - 5.08   Projeto final

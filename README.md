@@ -18,4 +18,5 @@
 
 # Android Alura parte 3
 
-- [ ] 27/11 - 1.13   O que aprendemos?
+- [x] 06/01 - 1.05   Criando layout personalizado
+- [ ] 13/01 - 1.13   O que aprendemos?

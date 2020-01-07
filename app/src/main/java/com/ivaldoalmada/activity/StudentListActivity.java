@@ -62,7 +62,7 @@ public class StudentListActivity extends AppCompatActivity {
 
     private void configureStudentList() {
         ListView studentListView = findViewById(R.id.activity_main_student_list);
-        studentListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        studentListAdapter = new ArrayAdapter<>(this, R.layout.item_aluno);
         studentListView.setAdapter(studentListAdapter);
 
         studentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

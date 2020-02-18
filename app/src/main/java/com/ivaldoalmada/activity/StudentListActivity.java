@@ -6,33 +6,26 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import android.view.*;
+import android.widget.*;
+import com.ivaldoalmada.activity.adapter.StudentListAdapter;
 import com.ivaldoalmada.dao.StudentDao;
 import com.ivaldoalmada.domain.Student;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentListActivity extends AppCompatActivity {
 
-    private final StudentDao studentDao = new StudentDao();
     private final String TITLE_APPBAR = "Lista de alunos";
     private Intent openFormIntent;
-    private ArrayAdapter<Student> studentListAdapter;
-
+    private StudentListAdapter studentListAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_list);
         setTitle(TITLE_APPBAR);
-        studentDao.save(new Student("Ivaldo", "987445311", "ivaldoalmada@gmail.com"));
-        studentDao.save(new Student("Ju", "989218286", "ju@gmail.com"));
         configureStudentList();
         configureFabNewStudent();
     }
@@ -55,14 +48,18 @@ public class StudentListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        studentListAdapter.clear();
-        studentListAdapter.addAll(studentDao.findAll());
+//        studentListAdapter.clear();
+//        studentListAdapter.addAll(studentDao.findAll());
 
     }
 
     private void configureStudentList() {
         ListView studentListView = findViewById(R.id.activity_main_student_list);
-        studentListAdapter = new ArrayAdapter<>(this, R.layout.item_aluno);
+        studentListAdapter = new StudentListAdapter(this);
+
+        studentListAdapter.save(new Student("Ivaldo", "987445311", "ivaldoalmada@gmail.com"));
+        studentListAdapter.save(new Student("Ju", "989218286", "ju@gmail.com"));
+
         studentListView.setAdapter(studentListAdapter);
 
         studentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -91,8 +88,7 @@ public class StudentListActivity extends AppCompatActivity {
         int itemId = item.getItemId();
         if(itemId == R.id.activity_lista_alunos_menu_remover) {
             AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            Student studentFound = studentListAdapter.getItem(menuInfo.position);
-            studentDao.remove(studentFound);
+            Student studentFound = (Student) studentListAdapter.getItem(menuInfo.position);
             studentListAdapter.remove(studentFound);
         }
         return super.onContextItemSelected(item);

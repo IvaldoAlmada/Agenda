@@ -5,16 +5,14 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <TextView android:id="@+id/item_aluno_nome"
+    <TextView android:id="@+id/student_item_name"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:textSize="24sp"
               android:layout_margin="8dp"
-              tools:text="Alex"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools" />
+              tools:text="Alex"/>
 
-    <TextView android:id="@+id/item_aluno_telefone"
+    <TextView android:id="@+id/student_item_phone"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"

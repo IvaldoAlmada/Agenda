@@ -19,4 +19,6 @@
 # Android Alura parte 3
 
 - [x] 06/01 - 1.05   Criando layout personalizado
-- [ ] 13/01 - 1.13   O que aprendemos?
+- [x] 30/01 - 1.07   Implementando métodos do BaseAdapter
+- [ ] 17/02 - 1.13   O que aprendemos?
+- [ ] 20/02 - 2.08   O que aprendemos?

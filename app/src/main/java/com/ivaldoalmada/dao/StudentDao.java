@@ -34,6 +34,10 @@ public class StudentDao {
         return studentFound;
     }
 
+    public Student findByPosition(int position) {
+        return studentList.get(position);
+    }
+
     public List<Student> findAll() {
         return studentList;
     }
@@ -41,5 +45,17 @@ public class StudentDao {
     public void remove(Student studentToDelete) {
         Student studentFound = findById(studentToDelete.getId());
         if (studentFound != null) studentList.remove(studentFound);
+    }
+
+    public int size() {
+        return studentList.size();
+    }
+
+    public void removeAll() {
+        studentList.clear();
+    }
+
+    public void addAll(List<Student> studentList) {
+        this.studentList.addAll(studentList);
     }
 }

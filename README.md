@@ -20,5 +20,6 @@
 
 - [x] 06/01 - 1.05   Criando layout personalizado
 - [x] 30/01 - 1.07   Implementando métodos do BaseAdapter
-- [ ] 17/02 - 1.13   O que aprendemos?
-- [ ] 20/02 - 2.08   O que aprendemos?
+- [x] 17/02 - 1.13   O que aprendemos?
+- [x] 26/02 - 2.08   O que aprendemos?
+- [x] 27/02 - 3.07   O que aprendemos?

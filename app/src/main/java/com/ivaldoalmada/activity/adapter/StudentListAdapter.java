@@ -10,12 +10,11 @@ import com.ivaldoalmada.activity.R;
 import com.ivaldoalmada.dao.StudentDao;
 import com.ivaldoalmada.domain.Student;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StudentListAdapter extends BaseAdapter {
 
-    private Context context;
+    private final Context context;
 
     private final StudentDao studentDao = new StudentDao();
 
@@ -52,17 +51,20 @@ public class StudentListAdapter extends BaseAdapter {
 
     }
 
-    public void clear() {
+    public void update(List<Student> studentList) {
         studentDao.removeAll();
-    }
-
-    public void addAll(List<Student> studentList) {
-        this.studentDao.addAll(studentList);
+        studentDao.addAll(studentList);
+        notifyDataSetChanged();
 
     }
 
     public void remove(Student studentFound) {
         studentDao.remove(studentFound);
+        notifyDataSetChanged();
+    }
+
+    public List<Student> getAll() {
+        return studentDao.findAll();
     }
 
     public void save(Student student) {

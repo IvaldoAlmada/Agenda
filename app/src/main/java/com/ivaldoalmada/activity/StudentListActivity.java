@@ -13,12 +13,12 @@ import com.ivaldoalmada.dao.StudentDao;
 import com.ivaldoalmada.domain.Student;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class StudentListActivity extends AppCompatActivity {
 
     private final String TITLE_APPBAR = "Lista de alunos";
-    private Intent openFormIntent;
     private StudentListAdapter studentListAdapter;
 
     @Override
@@ -26,12 +26,11 @@ public class StudentListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_list);
         setTitle(TITLE_APPBAR);
-        configureStudentList();
         configureFabNewStudent();
+        configureStudentList();
     }
 
     private void configureFabNewStudent() {
-        openFormIntent = new Intent(this, StudentFormActivity.class);
         FloatingActionButton addStudentButton = findViewById(R.id.activity_main_fab_student_list);
         addStudentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,32 +41,29 @@ public class StudentListActivity extends AppCompatActivity {
     }
 
     private void openFormActivity() {
-        startActivity(openFormIntent);
+        startActivity(new Intent(this, StudentFormActivity.class));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        studentListAdapter.clear();
-//        studentListAdapter.addAll(studentDao.findAll());
-
+        studentListAdapter.update(new ArrayList<>(studentListAdapter.getAll()));
     }
 
     private void configureStudentList() {
         ListView studentListView = findViewById(R.id.activity_main_student_list);
         studentListAdapter = new StudentListAdapter(this);
 
-        studentListAdapter.save(new Student("Ivaldo", "987445311", "ivaldoalmada@gmail.com"));
-        studentListAdapter.save(new Student("Ju", "989218286", "ju@gmail.com"));
-
         studentListView.setAdapter(studentListAdapter);
 
-        studentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        studentListView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Student selectedStudent = (Student) parent.getItemAtPosition(position);
                 Log.i("clicked", selectedStudent.toString());
+                Intent openFormIntent = new Intent(StudentListActivity.this, StudentFormActivity.class);
                 openFormIntent.putExtra("selectedStudent", selectedStudent);
                 startActivity(openFormIntent);
 

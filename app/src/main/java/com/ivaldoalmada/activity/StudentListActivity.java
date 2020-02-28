@@ -1,9 +1,11 @@
 package com.ivaldoalmada.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.*;
@@ -80,12 +82,24 @@ public class StudentListActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(final MenuItem item) {
         int itemId = item.getItemId();
         if(itemId == R.id.activity_lista_alunos_menu_remover) {
-            AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            Student studentFound = (Student) studentListAdapter.getItem(menuInfo.position);
-            studentListAdapter.remove(studentFound);
+            new AlertDialog.Builder(this)
+                    .setTitle("Remove Student")
+                    .setMessage("Tem certeza que deseja remover o aluno?")
+                    .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                            Student studentFound = (Student) studentListAdapter.getItem(menuInfo.position);
+                            studentListAdapter.remove(studentFound);
+                        }
+                    })
+                    .setNegativeButton("Nao", null)
+                    .show();
+
+
         }
         return super.onContextItemSelected(item);
     }

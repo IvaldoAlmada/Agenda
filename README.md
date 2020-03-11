@@ -23,4 +23,5 @@
 - [x] 17/02 - 1.13   O que aprendemos?
 - [x] 26/02 - 2.08   O que aprendemos?
 - [x] 27/02 - 3.07   O que aprendemos?
-- [ ] 02/03 - 4.12   O que aprendemos?
+- [x] 10/03 - 4.12   O que aprendemos?
+- [ ] 12/03 - 5.14   Próximos passos

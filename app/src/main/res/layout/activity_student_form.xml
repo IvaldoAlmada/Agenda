@@ -15,7 +15,7 @@
                 android:inputType="textCapWords"
                 android:hint="@string/name"
                 android:id="@+id/formStudentName"
-        />
+                android:importantForAutofill="no"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
                 android:inputType="phone"
                 android:hint="@string/phone"
                 android:id="@+id/formStudentPhone"
-        />
+                android:importantForAutofill="no"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,6 +31,6 @@
                 android:inputType="textEmailAddress"
                 android:hint="@string/email"
                 android:id="@+id/formStudentEmail"
-        />
+                android:importantForAutofill="no"/>
     </LinearLayout>
 </ScrollView>

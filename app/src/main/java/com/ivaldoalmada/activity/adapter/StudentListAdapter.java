@@ -1,5 +1,6 @@
 package com.ivaldoalmada.activity.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ public class StudentListAdapter extends BaseAdapter {
     }
 
     @Override
+    @SuppressLint("ViewHolder")
     public View getView(int position, View convertView, ViewGroup parent) {
         View createdView = LayoutInflater
                 .from(context)
@@ -55,13 +57,14 @@ public class StudentListAdapter extends BaseAdapter {
         studentDao.removeAll();
         studentDao.addAll(studentList);
         notifyDataSetChanged();
-
     }
 
     public void remove(Student studentFound) {
         studentDao.remove(studentFound);
         notifyDataSetChanged();
     }
+
+
 
     public List<Student> getAll() {
         return studentDao.findAll();

@@ -1,27 +1,23 @@
 package com.ivaldoalmada.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.*;
-import android.widget.*;
-import com.ivaldoalmada.activity.adapter.StudentListAdapter;
-import com.ivaldoalmada.dao.StudentDao;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ivaldoalmada.domain.Student;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.ivaldoalmada.ui.StudentListView;
 
 public class StudentListActivity extends AppCompatActivity {
 
     private final String TITLE_APPBAR = "Lista de alunos";
-    private StudentListAdapter studentListAdapter;
+    private final StudentListView studentListView = new StudentListView(this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,30 +45,23 @@ public class StudentListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        studentListAdapter.update(new ArrayList<>(studentListAdapter.getAll()));
     }
 
     private void configureStudentList() {
-        ListView studentListView = findViewById(R.id.activity_main_student_list);
-        studentListAdapter = new StudentListAdapter(this);
+        ListView listView = findViewById(R.id.activity_main_student_list);
+        studentListView.configureAdapter(listView);
 
-        studentListView.setAdapter(studentListAdapter);
+        listView.setOnItemClickListener(
+                (parent, view, position, id) -> {
+                    Student selectedStudent = (Student) parent.getItemAtPosition(position);
+                    Log.i("clicked", selectedStudent.toString());
+                    Intent openFormIntent = new Intent(StudentListActivity.this, StudentFormActivity.class);
+                    openFormIntent.putExtra("selectedStudent", selectedStudent);
+                    startActivity(openFormIntent);
 
-        studentListView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
+                });
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Student selectedStudent = (Student) parent.getItemAtPosition(position);
-                Log.i("clicked", selectedStudent.toString());
-                Intent openFormIntent = new Intent(StudentListActivity.this, StudentFormActivity.class);
-                openFormIntent.putExtra("selectedStudent", selectedStudent);
-                startActivity(openFormIntent);
-
-            }
-        });
-
-        registerForContextMenu(studentListView);
+        registerForContextMenu(listView);
     }
 
     @Override
@@ -85,21 +74,7 @@ public class StudentListActivity extends AppCompatActivity {
     public boolean onContextItemSelected(final MenuItem item) {
         int itemId = item.getItemId();
         if(itemId == R.id.activity_lista_alunos_menu_remover) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Remove Student")
-                    .setMessage("Tem certeza que deseja remover o aluno?")
-                    .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-                            Student studentFound = (Student) studentListAdapter.getItem(menuInfo.position);
-                            studentListAdapter.remove(studentFound);
-                        }
-                    })
-                    .setNegativeButton("Nao", null)
-                    .show();
-
-
+            studentListView.confirmRemoving(item);
         }
         return super.onContextItemSelected(item);
     }
